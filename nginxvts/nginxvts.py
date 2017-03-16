@@ -32,10 +32,10 @@ import diamond.collector
 import json
 
 
-class NginxextCollector(diamond.collector.Collector):
+class NginxvtsCollector(diamond.collector.Collector):
 
     def get_default_config_help(self):
-        config_help = super(NginxextCollector, self).get_default_config_help()
+        config_help = super(NginxvtsCollector, self).get_default_config_help()
         config_help.update({
             'precision': 'Number of decimal places to report to',
             'req_host': 'Hostname',
@@ -47,17 +47,17 @@ class NginxextCollector(diamond.collector.Collector):
         return config_help
 
     def get_default_config(self):
-        default_config = super(NginxextCollector, self).get_default_config()
+        default_config = super(NginxvtsCollector, self).get_default_config()
         default_config['precision'] = 0
         default_config['req_host'] = '127.0.0.1'
         default_config['req_port'] = 80
         default_config['req_path'] = '/status/format/json'
         default_config['req_ssl'] = False
         default_config['req_host_header'] = None
-        default_config['path'] = 'nginxext'
+        default_config['path'] = 'nginxvts'
         return default_config
 
-    def collect_nginx_ext(self, status):
+    def collect_nginx_vts(self, status):
         # Collect base info
         hostname = status['hostName']
 
@@ -145,7 +145,7 @@ class NginxextCollector(diamond.collector.Collector):
         req = urllib2.Request(url=url, headers=headers)
         try:
             handle = urllib2.urlopen(req)
-            self.collect_nginx_ext(json.load(handle))
+            self.collect_nginx_vts(json.load(handle))
         except IOError, e:
             self.log.error("1Unable to open [%s]" , url)
         except Exception, e:
